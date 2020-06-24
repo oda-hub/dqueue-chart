@@ -10,12 +10,12 @@ function create-secrets(){
 
 function install() {
     set -x
-    helm --name ${NAMESPACE:?}-dqueue --namespace ${NAMESPACE:?} install . --set image.tag="$(cd dqueue; git describe --always)"
+    helm3 -n ${NAMESPACE:?} install  dqueue . --set image.tag="$(cd dqueue; git describe --always)"
 }
 
 function upgrade() {
     set -x
-    helm upgrade ${NAMESPACE:?}-dqueue . --set image.tag="$(cd dqueue; git describe --always)"
+    helm3 upgrade -n ${NAMESPACE:?} dqueue . --set image.tag="$(cd dqueue; git describe --always)"
 }
 
 $@
