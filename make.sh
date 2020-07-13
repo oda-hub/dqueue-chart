@@ -1,3 +1,4 @@
+NAMESPACE=staging-1-3
 
 function create-secrets(){
     kubectl create secret generic db-user-pass  --from-file=./private/password.txt
@@ -10,12 +11,12 @@ function create-secrets(){
 
 function install() {
     set -x
-    helm3 -n ${NAMESPACE:?} install  dqueue . --set image.tag="$(cd dqueue; git describe --always)"
+    helm -n ${NAMESPACE:?} install  oda-dqueue . --set image.tag="$(cd dqueue; git describe --always)"
 }
 
 function upgrade() {
     set -x
-    helm3 upgrade -n ${NAMESPACE:?} dqueue . --set image.tag="$(cd dqueue; git describe --always)"
+    helm upgrade -n ${NAMESPACE:?} oda-dqueue . --set image.tag="$(cd dqueue; git describe --always)"
 }
 
 $@
