@@ -29,22 +29,21 @@ spec:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          ports:
-            - name: http
-              containerPort: 8000
-              protocol: TCP
+          ports: []
           livenessProbe:
-            httpGet:
-              path: /
-              port: http
+            exec:
+              command:
+              - ls
+              - /
             failureThreshold: 5
             initialDelaySeconds: 15
             periodSeconds: 60
             timeoutSeconds: 30
           readinessProbe:
-            httpGet:
-              path: /
-              port: http
+            exec:
+              command:
+              - ls
+              - /
             failureThreshold: 3
             initialDelaySeconds: 5
             periodSeconds: 5
