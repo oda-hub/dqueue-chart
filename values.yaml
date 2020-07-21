@@ -48,6 +48,9 @@ ingress:
   - host: in.odahub.io
     paths:
     - /staging-1.3/dqueue(/|$)(.*)
+  - host: api.odahub.io
+    paths:
+    - /staging-1.3/dqueue(/|$)(.*)
   - host: dqueue.staging-1-3.odahub.io
     paths:
     - /()(.*)
