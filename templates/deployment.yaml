@@ -59,12 +59,17 @@ spec:
               secretKeyRef:
                 name: dqueue-database-url
                 key: url.txt
+          - name: GATEWAY_SECRET_HEXIFIED
+            valueFrom:
+              secretKeyRef:
+                name: gateway-secret
+                key: gateway-secret.txt
+          - name: MINIO_KEY
+            valueFrom:
+              secretKeyRef:
+                name: minio-key
+                key: minio-key.txt
 
-                #          - name: MINIO_KEY
-                #            valueFrom:
-                #                secretKeyRef:
-                #                  name: minio-key
-                #                  key: minio-key.txt
                 #          - name: JENA_PASSWORD
                 #            valueFrom:
                 #                secretKeyRef:
