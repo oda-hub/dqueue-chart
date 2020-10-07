@@ -8,6 +8,9 @@ function create-secrets(){
     kubectl create secret -n $NAMESPACE generic jena-password  --from-file=./private/jena-password.txt
     kubectl create secret -n $NAMESPACE generic logstash-entrypoint  --from-file=./private/logstash-entrypoint.txt
     kubectl create secret -n $NAMESPACE generic gateway-secret  --from-file=gateway-secret.txt=$HOME/gateway-secret-hexified
+
+    kubectl delete secret -n $NAMESPACE dda-token
+    kubectl create secret -n $NAMESPACE generic dda-token  --from-file=dda-token=$HOME/.dda-token
 }
 
 function install() {

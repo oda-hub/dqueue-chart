@@ -53,8 +53,9 @@ spec:
           env:
           - name: APP_MODE
             value: guardian
-          - name: DQUEUE_LEADER
-            value: "http://in.internal.odahub.io/staging-1-3/dqueue@queue-osa11" # hardcoded!
+          - name: ODAHUB
+            value: "http://dqueue.staging-1-3.internal.odahub.io@queue-osa11" # hardcoded!
+            #value: "http://in.internal.odahub.io/staging-1-3/dqueue@queue-osa11" # hardcoded!
           - name: ODA_SPARQL_ROOT
             value: "http://fuseki.internal.odahub.io/dataanalysis"
           - name: DQUEUE_DATABASE_URL
@@ -62,22 +63,6 @@ spec:
               secretKeyRef:
                 name: dqueue-database-url
                 key: url.txt
-
-                #          - name: MINIO_KEY
-                #            valueFrom:
-                #                secretKeyRef:
-                #                  name: minio-key
-                #                  key: minio-key.txt
-                #          - name: JENA_PASSWORD
-                #            valueFrom:
-                #                secretKeyRef:
-                #                  name: jena-password
-                #                  key: jena-password.txt
-                #          - name: LOGSTASH_ENTRYPOINT
-                #            valueFrom:
-                #                secretKeyRef:
-                #                  name: logstash-entrypoint
-                #  key: logstash-entrypoint.txt
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
