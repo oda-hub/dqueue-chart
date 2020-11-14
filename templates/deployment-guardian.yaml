@@ -5,7 +5,8 @@ metadata:
   labels:
 {{ include "chart.labels" . | indent 4 }}
 spec:
-  replicas: {{ .Values.replicaCount }}
+  replicas: 1
+      #{{ .Values.replicaCount }}
   selector:
     matchLabels:
       app.kubernetes.io/name: {{ include "chart.name" . }}-guardian

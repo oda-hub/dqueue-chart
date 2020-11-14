@@ -64,6 +64,8 @@ spec:
               secretKeyRef:
                 name: gateway-secret
                 key: gateway-secret.txt
+          - name: MINIO_USER
+            value: "odanode"
           - name: MINIO_KEY
             valueFrom:
               secretKeyRef:
