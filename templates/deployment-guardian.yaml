@@ -55,10 +55,11 @@ spec:
           - name: APP_MODE
             value: guardian
           - name: ODAHUB
-            value: "http://dqueue.staging-1-3.internal.odahub.io@queue-osa11" # hardcoded!
-            #value: "http://in.internal.odahub.io/staging-1-3/dqueue@queue-osa11" # hardcoded!
+            value: "http://crux.staging-1-3.internal.odahub.io@default" # hardcoded!
           - name: ODA_SPARQL_ROOT
             value: "http://fuseki.internal.odahub.io/dataanalysis"
+          - name: LOGSTASH_ENTRYPOINT
+            value: "cdcihn:5001"
           - name: DQUEUE_DATABASE_URL
             valueFrom:
               secretKeyRef:

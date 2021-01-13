@@ -66,6 +66,8 @@ spec:
                 key: gateway-secret.txt
           - name: MINIO_USER
             value: "odanode"
+          - name: LOGSTASH_ENTRYPOINT
+            value: "cdcihn:5001"
           - name: MINIO_KEY
             valueFrom:
               secretKeyRef:
@@ -77,11 +79,6 @@ spec:
                 #                secretKeyRef:
                 #                  name: jena-password
                 #                  key: jena-password.txt
-                #          - name: LOGSTASH_ENTRYPOINT
-                #            valueFrom:
-                #                secretKeyRef:
-                #                  name: logstash-entrypoint
-                #  key: logstash-entrypoint.txt
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

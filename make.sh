@@ -16,12 +16,12 @@ function create-secrets(){
 
 function install() {
     set -x
-    helm -n ${NAMESPACE:?} install  oda-dqueue . --set image.tag="$(cd dqueue; git describe --always)"
+    upgrade
 }
 
 function upgrade() {
     set -x
-    helm upgrade -n ${NAMESPACE:?} oda-dqueue . --set image.tag="$(cd dqueue; git describe --always)" --wait
+    helm upgrade --install -n ${NAMESPACE:?} oda-dqueue . --set image.tag="$(cd dqueue; git describe --always)" --wait
 }
 
 $@
