@@ -64,10 +64,12 @@ spec:
               secretKeyRef:
                 name: gateway-secret
                 key: gateway-secret.txt
+          - name: MINIO_URL
+            value: "minio.obsuks1.unige.ch"
           - name: MINIO_USER
             value: "odanode"
           - name: LOGSTASH_ENTRYPOINT
-            value: "cdcihn:5001"
+            value: {{ .Values.oda.logstash_entrypoint }}
           - name: MINIO_KEY
             valueFrom:
               secretKeyRef:

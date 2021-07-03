@@ -71,12 +71,15 @@ ingress:
   #      - chart-example.local
 
 resources: 
-   limits:
-     cpu: 2000m
-     memory: 10240Mi
-   requests:
-     cpu: 500m
-     memory: 1024Mi
+  limits:
+    cpu: 2000m
+    memory: 10240Mi
+  requests:
+    cpu: 500m
+    memory: 1024Mi
+
+oda:
+  logstash_entrypoint: cdcihn.isdc.unige.ch:5001
 
 nodeSelector: {}
 
