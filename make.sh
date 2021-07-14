@@ -1,5 +1,7 @@
 echo "${ODA_NAMESPACE:=staging-1-3}"
 
+DQUEUE_IMAGE_TAG=${DQUEUE_IMAGE_TAG:-"$(cd dqueue; git describe --always)"}
+
 function create-secrets(){
     kubectl create secret -n $ODA_NAMESPACE generic db-user-pass  --from-file=./private/password.txt
     kubectl create secret -n $ODA_NAMESPACE generic odatests-tests-bot-password  --from-file=./private/testbot-password.txt
@@ -21,7 +23,7 @@ function install() {
 
 function upgrade() {
     set -x
-    helm upgrade --install -n ${ODA_NAMESPACE:?} oda-dqueue . -f values-${ODA_SITE}.yaml --set image.tag="$(cd dqueue; git describe --always)" 
+    helm upgrade --install -n ${ODA_NAMESPACE:?} oda-dqueue . -f values-${ODA_SITE}.yaml --set image.tag=$DQUEUE_IMAGE_TAG
 }
 
 $@

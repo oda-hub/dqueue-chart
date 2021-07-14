@@ -54,6 +54,8 @@ spec:
           env:
           - name: ODA_SPARQL_ROOT
             value: "http://fuseki.internal.odahub.io/dataanalysis"
+          - name: ODA_ALLOWED_DISPATCHER_CALLBACKS
+            value: ""
           - name: DQUEUE_DATABASE_URL
             valueFrom:
               secretKeyRef:
@@ -65,9 +67,12 @@ spec:
                 name: gateway-secret
                 key: gateway-secret.txt
           - name: MINIO_URL
-            value: "minio.obsuks1.unige.ch"
+            value: "{{ .Values.minio | default "minio.obsuks1.unige.ch" }}"
+          - name: MINIO_SECURE
+            value: "{{ .Values.minio_secure | default "yes" }}"
           - name: MINIO_USER
-            value: "odanode"
+            value: "admin"
+            #value: "odanode"
           - name: LOGSTASH_ENTRYPOINT
             value: {{ .Values.oda.logstash_entrypoint }}
           - name: MINIO_KEY
