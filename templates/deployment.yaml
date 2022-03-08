@@ -71,15 +71,18 @@ spec:
           - name: MINIO_SECURE
             value: "{{ .Values.minio_secure | default "yes" }}"
           - name: MINIO_USER
-            value: "admin"
+            value: "{{ .Values.minio_user | default "admin" }}"
             #value: "odanode"
-          - name: LOGSTASH_ENTRYPOINT
-            value: {{ .Values.oda.logstash_entrypoint }}
+            #- name: LOGSTASH_ENTRYPOINT
+            #value: {{ .Values.oda.logstash_entrypoint }}
           - name: MINIO_KEY
-            valueFrom:
-              secretKeyRef:
-                name: minio-key
-                key: minio-key.txt
+            value: "{{ .Values.minio_key }}"
+          - name: DQUEUE_SILENT
+            value: "{{ .Values.oda_dqueue_silent }}"
+            #           valueFrom:
+            #  secretKeyRef:
+            #    name: minio-key
+            #    key: minio-key.txt
 
                 #          - name: JENA_PASSWORD
                 #            valueFrom:
