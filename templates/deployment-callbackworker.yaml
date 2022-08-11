@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "chart.fullname" . }}
+  name: {{ include "chart.fullname" . }}-callbackworker
   labels:
 {{ include "chart.labels" . | indent 4 }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      app.kubernetes.io/name: {{ include "chart.name" . }}
-      app.kubernetes.io/instance: {{ .Release.Name }}
+      app.kubernetes.io/name: {{ include "chart.name" . }}-callbackworker
+      app.kubernetes.io/instance: {{ .Release.Name }}-callbackworker
   template:
     metadata:
       labels:
-        app.kubernetes.io/name: {{ include "chart.name" . }}
-        app.kubernetes.io/instance: {{ .Release.Name }}
+        app.kubernetes.io/name: {{ include "chart.name" . }}-callbackworker
+        app.kubernetes.io/instance: {{ .Release.Name }}-callbackworker
     spec:
     {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
@@ -34,17 +34,19 @@ spec:
               containerPort: 8000
               protocol: TCP
           livenessProbe:
-            httpGet:
-              path: /
-              port: http
+            exec:
+              command:
+              - ls
+              - /
             failureThreshold: 5
             initialDelaySeconds: 15
             periodSeconds: 60
             timeoutSeconds: 30
           readinessProbe:
-            httpGet:
-              path: /
-              port: http
+            exec:
+              command:
+              - ls
+              - /
             failureThreshold: 3
             initialDelaySeconds: 5
             periodSeconds: 5
@@ -52,43 +54,19 @@ spec:
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           env:
+          - name: APP_MODE
+            value: callbackworker
+          - name: ODAHUB
+            value: "{{ .Values.oda.crux }}"
           - name: ODA_SPARQL_ROOT
             value: "http://fuseki.internal.odahub.io/dataanalysis"
-          - name: ODA_ALLOWED_DISPATCHER_CALLBACKS
-            value: {{ .Values.oda_allowed_dispatcher_callbacks }} 
           - name: DQUEUE_DATABASE_URL
             valueFrom:
               secretKeyRef:
                 name: dqueue-database-url
-                key: url.txt
-          - name: GATEWAY_SECRET_HEXIFIED
-            valueFrom:
-              secretKeyRef:
-                name: gateway-secret
-                key: gateway-secret.txt
-          - name: MINIO_URL
-            value: "{{ .Values.minio | default "minio.obsuks1.unige.ch" }}"
-          - name: MINIO_SECURE
-            value: "{{ .Values.minio_secure | default "yes" }}"
-          - name: MINIO_USER
-            value: "{{ .Values.minio_user | default "admin" }}"
-            #value: "odanode"
-            #- name: LOGSTASH_ENTRYPOINT
-            #value: {{ .Values.oda.logstash_entrypoint }}
-          - name: MINIO_KEY
-            value: "{{ .Values.minio_key }}"
+                key: url.txt          
           - name: DQUEUE_SILENT
             value: "{{ .Values.oda_dqueue_silent }}"
-            #           valueFrom:
-            #  secretKeyRef:
-            #    name: minio-key
-            #    key: minio-key.txt
-
-                #          - name: JENA_PASSWORD
-                #            valueFrom:
-                #                secretKeyRef:
-                #                  name: jena-password
-                #                  key: jena-password.txt
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
